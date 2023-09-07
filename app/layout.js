@@ -1,6 +1,7 @@
 import Link from "next/link";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import Header from "./Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,14 +28,10 @@ export default function RootLayout({ children }) {
       <body
         className={"flex flex-col min-h-screen relative " + inter.className}
       >
-        <header className="sticky top-0 p-6 bg-gray-500 border-6 border-solid border-blue-900 shadow-md z-50 text-2xl sm:text-3xl md:text-4xl sm:p-8 flex items-center justify-between">
-          <Link href="/">
-            <h1 className="cursor-pointer hover:scale-110">MarketSQuare</h1>
-          </Link>
-          <i className="cursor-pointer hover:text-slate-900 fa-solid fa-cart-shopping"></i>
-        </header>
+       <Header/>
         <div className="flex-1">{children}</div>
-        <footer>FOOTER</footer>
+        <footer className="flex items-center flex-wrap justify-center border-t border-solid border-slate-300 p-6" >FOOTER</footer>
+        <div id="portal"></div>
       </body>
     </html>
   );
