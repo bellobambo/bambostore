@@ -1,9 +1,12 @@
+import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 export async function POST(request) {
-  const body = JSON.parse(request.body);
+  const body = await request.json()
   if (body.lineItems.length === 0) {
-    return res.sendStatus(405);
+    return new Response('Error', {
+      status: 405,
+    });
   }
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
@@ -15,9 +18,11 @@ export async function POST(request) {
       line_items: body.lineItems,
       mode: "payment",
     });
-    return res.status(201).json({ session });
+    return NextResponse.json({session})
   } catch (error) {
-      console.log("Broken", error);
-      res.sendStatus(500)
+    console.log("Broken", error);
+    return new Response("Error", {
+      status: 405,
+    });
   }
 }

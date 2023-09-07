@@ -7,25 +7,27 @@ import { useRouter } from "next/navigation";
 
 export default function Modal() {
   const closeModal = useCart((state) => state.setOpenModal);
-    const cartItems = useCart((state) => state.cart);
-    const router = useRouter
+  const cartItems = useCart((state) => state.cart);
 
-    async function checkout() {
-        const lineItems = cartItems.map(cartItem => {
-            return {
-                price : cartItem.price_id,
-                quantity: 1,
+  const router = useRouter();
 
-            }
-
-        })
-        const res = await fetch('/api/checkout', {
-            method: 'POST',
-            body : JSON.stringify({lineItems})
-        })
-        const data = await res.json()
-        router.push(data.session.url)
-    }
+  async function checkout() {
+    const lineItems = cartItems.map((cartItem) => {
+      return {
+        price: cartItem.price_id,
+        quantity: 1,
+      };
+    });
+    const res = await fetch("/api/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ lineItems }),
+    });
+    const data = await res.json();
+    router.push(data.session.url);
+  }
 
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50">
