@@ -6,16 +6,20 @@ import useCart from "../(store)/store";
 
 export default function ProductPage(props) {
   const { searchParams } = props;
-  const { price_id } = searchParams;
+  const { price_id } = searchParams || {}; // Destructure with default value to avoid errors
   const product = useCart((state) => state.product);
-  const addItemCart = useCart(state => state.addItemCart)
+  const addItemCart = useCart((state) => state.addItemCart);
   const { cost, productInfo, name, description } = product;
   console.log(product);
   console.log(searchParams);
 
-  if (!product?.name) {
-    window.location.href = "/";
-  }
+  // if (!product?.name) {
+  //   window.location.href = "/";
+  // }
+
+   if (!product?.name) {
+     return <div>Loading...</div>; // Add loading logic here
+   }
 
   function handleAddToCart(){
     const newItem = {
